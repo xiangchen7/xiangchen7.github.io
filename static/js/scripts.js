@@ -6,8 +6,8 @@ const sections = [
     { id: 'home', file: 'Home.md' },
     { id: 'research', file: 'Research Experience.md' },
     { id: 'awards', file: 'Awards and Competitions.md' },
-    { id: 'experience', file: 'Extra-Curricular Activities.md' },
-    { id: 'publications', file: 'Publications.md' }
+    { id: 'experience', file: 'Extra-Curricular Activities.md' }
+
 ];
 
 window.addEventListener('DOMContentLoaded', event => {
