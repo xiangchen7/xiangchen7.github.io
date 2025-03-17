@@ -3,7 +3,7 @@ const config_file = 'config.yml';
 
 // 更新 sections 数组以匹配实际文件名
 const sections = [
-    { id: 'home', file: 'Home.md' },
+    { id: 'home', file: 'home.md' },
     { id: 'research', file: 'Research Experience.md' },
     { id: 'awards', file: 'Awards and Competitions.md' },
     { id: 'experience', file: 'Extra-Curricular Activities.md' }
