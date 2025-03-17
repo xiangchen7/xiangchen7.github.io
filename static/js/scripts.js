@@ -1,7 +1,7 @@
 const content_dir = 'contents/';
 const config_file = 'config.yml';
 
-// 更新 section_names 以匹配实际部分，并添加映射关系
+// 更新 sections 数组以匹配实际文件名
 const sections = [
     { id: 'home', file: 'Home.md' },
     { id: 'research', file: 'Research Experience.md' },
@@ -41,8 +41,8 @@ window.addEventListener('DOMContentLoaded', event => {
             Object.keys(yml).forEach(key => {
                 try {
                     document.getElementById(key).innerHTML = yml[key];
-                } catch {
-                    console.log("Unknown id and value: " + key + "," + yml[key].toString());
+                } catch (e) {
+                    console.log("Unknown id and value: " + key + "," + yml[key].toString() + " Error: " + e);
                 }
             });
         })
@@ -52,15 +52,25 @@ window.addEventListener('DOMContentLoaded', event => {
     marked.use({ mangle: false, headerIds: false });
     sections.forEach(section => {
         fetch(content_dir + section.file)
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
             .then(markdown => {
                 const html = marked.parse(markdown);
-                document.getElementById(section.id + '-md').innerHTML = html;
+                const element = document.getElementById(section.id + '-md');
+                if (element) {
+                    element.innerHTML = html;
+                } else {
+                    console.error(`Element with id '${section.id}-md' not found`);
+                }
             })
             .then(() => {
                 // Render MathJax after loading Markdown
                 MathJax.typeset();
             })
-            .catch(error => console.log(`Error loading ${section.file}:`, error));
+            .catch(error => console.error(`Error loading ${section.file}:`, error));
     });
 });
